@@ -1,23 +1,24 @@
 # Source Code Line Counter
 
-Counts non-comment, non-blank lines in `.c` and `.h` source files.
+Counts non-comment, non-blank lines in `.c`, `.cpp`, and `.h` source files.
 
 ## Usage
 
 ```python
 $ python3 count_lines.py -h
-usage: count_lines.py [-h] [-e EXCLUDE] [--ext {.c,.h}] [--depth DEPTH] path
+usage: count_lines.py [-h] [-e EXCLUDE] [--ext {.c,.h,.cpp}] [--depth DEPTH] path
 
-Count non-comment source lines in *.c/*.h files.
+Count non-comment source lines in *.c/*.h/*.cpp files.
 
 positional arguments:
-  path                  Path to a directory (scan recursively) or a single .c/.h file
+  path                  Path to a directory (scan recursively) or a single .c/.h/.cpp file
 
 options:
   -h, --help            show this help message and exit
   -e, --exclude EXCLUDE
                         Path component to exclude (repeatable)
-  --ext {.c,.h}         File extension to count (default: both .c and .h; repeat to specify multiple extensions)
+  --ext {.c,.h,.cpp}    File extension to count (default: .c, .h, and .cpp; repeat to specify multiple
+                        extensions)
   --depth DEPTH         Show counts per subdirectory up to this depth (0 = total only)
 ```
 

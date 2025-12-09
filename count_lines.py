@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Count non-blank, non-comment lines in *.c and *.h files.
+Count non-blank, non-comment lines in *.c, *.h, and *.cpp files.
 
-- If a directory is given: recursively scan all *.c and *.h files.
-- If a single file is given: count only that file (must be .c or .h).
+- If a directory is given: recursively scan all *.c, *.h, and *.cpp files.
+- If a single file is given: count only that file (must be .c, .h, or .cpp).
 - Exclude paths containing any of the --exclude strings.
 - Optionally specify a depth to show hierarchical counts.
 """
@@ -12,7 +12,7 @@ import argparse
 from pathlib import Path
 from typing import Iterator, List
 
-DEFAULT_EXTS = {".c", ".h"}
+DEFAULT_EXTS = {".c", ".h", ".cpp"}
 
 def iter_source_files(root: Path, excludes: List[str], exts: set[str]) -> Iterator[tuple[Path, list[str]]]:
     """Yield *.c or *.h files from a directory, skipping excluded paths."""
@@ -120,11 +120,11 @@ def main(path: str, excludes: List[str], exts: set[str], depth: int) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Count non-comment source lines in *.c/*.h files."
+        description="Count non-comment source lines in *.c/*.h/*.cpp files."
     )
     parser.add_argument(
         "path",
-        help="Path to a directory (scan recursively) or a single .c/.h file",
+        help="Path to a directory (scan recursively) or a single .c/.h/.cpp file",
     )
     parser.add_argument(
         "-e", "--exclude",
@@ -134,8 +134,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--ext",
         action="append",
-        choices=[".c", ".h"],
-        help="File extension to count (default: both .c and .h; repeat to specify multiple extensions)",
+        choices=[".c", ".h", ".cpp"],
+        help="File extension to count (default: .c, .h, and .cpp; repeat to specify multiple extensions)",
     )
     parser.add_argument(
         "--depth",
@@ -148,4 +148,9 @@ if __name__ == "__main__":
         exts = set(DEFAULT_EXTS)
     else:
         exts = set(args.ext)
-    main(args.path, args.exclude, exts, args.depth)
+
+    if not args.ext:
+        excs = []
+    else:
+        excs = args.exclude
+    main(args.path, excs, exts, args.depth)
